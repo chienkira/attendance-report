@@ -1,5 +1,6 @@
 var BREAK_TIME = '1:00';
 var CONCERN_JAPAN = true;
+
 var MIN_WORK_TIME = 160;
 var MAX_WORK_TIME = 180;
 var HOUR_PER_DAY = 8;
@@ -42,7 +43,8 @@ $.cwx.api({
               data.work_time = '00:00';
               data.work_hour = 0;
               data.work_min = 0;
-              if (!((new Date(data.work_date)).getDay() % 6 == 0 || (CONCERN_JAPAN && data.is_national_holiday))) fill_day_cnt++;
+              if (!((new Date(data.work_date)).getDay() % 6 == 0 || (CONCERN_JAPAN && data.is_national_holiday))
+                && (new Date(data.work_date)) > (new Date()) ) fill_day_cnt++;
             }
             month_datas.push(data);
           }
