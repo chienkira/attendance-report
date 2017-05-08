@@ -38,13 +38,13 @@ $.cwx.api({
                 data.work_time += '(Nửa ngày)';
               }
             } else {
-              data.start_time = '--:--';
-              data.end_time = '--:--';
+              data.start_time = data.start_time || '--:--';
+              data.end_time = data.end_time || '--:--';
               data.work_time = '00:00';
               data.work_hour = 0;
               data.work_min = 0;
               if (!((new Date(data.work_date)).getDay() % 6 == 0 || (CONCERN_JAPAN && data.is_national_holiday))
-                && (new Date(data.work_date)) > (new Date()) ) fill_day_cnt++;
+                && (new Date(data.work_date)) > (new Date()).setDate((new Date()).getDate()-1)) fill_day_cnt++;
             }
             month_datas.push(data);
           }
