@@ -94,4 +94,5 @@ function exec(CONCERN_JAPAN) {
     return (String(100+Math.floor(minsdiff/60)).substr(1)+':'+String(100+minsdiff%60).substr(1));
   }
 }
-// fetch('https://kiradev.me/tool/attendance-report/attendance_report.js').then(response => response.text()).then(function(scode) {eval(scode); exec();});
+//fetch('https://kiradev.me/tool/attendance-report/attendance_report.js',{cache: 'no-cache'}).then(response => response.text()).then(function(scode) {eval(scode); exec();});
+
