@@ -1,20 +1,21 @@
-function exec(CONCERN_JAPAN) {
+function exec(CONCERN_JAPAN, _target_month) {
+  var month = (new Date()).getMonth()+1;
+  var year = (new Date()).getYear()+1900;
   var CONCERN_JAPAN = (typeof CONCERN_JAPAN === 'undefined') ? true : CONCERN_JAPAN;
+  var target_month = (typeof _target_month === 'undefined') ? month : _target_month;
   var BREAK_TIME = CONCERN_JAPAN ? '1:00' : '1:30';
 
   var MIN_WORK_TIME = 160;
   var MAX_WORK_TIME = 180;
   var HOUR_PER_DAY = 8;
-  var month = (new Date()).getMonth()+1;
-  var year = (new Date()).getYear()+1900;
 
   $.cwx.api({
-    url: clearworks.constant.API_URI + '/payroll/employee-attendance/find-by-login-user?target_year='+year+'&target_month='+(month)+'',
+    url: clearworks.constant.API_URI + '/payroll/employee-attendance/find-by-login-user?target_year='+year+'&target_month='+(target_month)+'',
     method: 'GET',
     onerror: function() { console.log('%c Không nhận được response từ server. Hủy!', 'background-color: red; color: black') },
     onsuccess: function (params, result1) {
       $.cwx.api({
-        url: clearworks.constant.API_URI + '/payroll/employee-attendance/find-by-login-user?target_year='+year+'&target_month='+(month+1)+'',
+        url: clearworks.constant.API_URI + '/payroll/employee-attendance/find-by-login-user?target_year='+year+'&target_month='+(target_month+1)+'',
         method: 'GET',
         onerror: function() { console.log('%c Không nhận được response từ server. Hủy!', 'background-color: red; color: black') },
         onsuccess: function (params, result2) {
@@ -24,7 +25,7 @@ function exec(CONCERN_JAPAN) {
           var month_datas = [];
           var work_day_cnt = 0, fill_day_cnt = 0;
           _.map(_.union(month_datas_1, month_datas_2), function(data) {
-            if ((new Date(data.work_date)).getMonth()+1 == month) {
+            if ((new Date(data.work_date)).getMonth()+1 == target_month) {
               if (data.start_time && data.end_time) {
                 work_day_cnt ++;
                 if(data.start_time.length == 4) data.start_time = ' '+data.start_time;
@@ -59,7 +60,7 @@ function exec(CONCERN_JAPAN) {
               );
           });
           console.log('%c            Thống kê giờ làm               ', 'background-color: #FAFAFA; color: green; font-weight:bold:;');
-          console.log('%c Nhân viên: '+emp_name+' Tháng: '+month+'/'+year+' ', 'background-color: #5272ab; color: white;');
+          console.log('%c Nhân viên: '+emp_name+' Tháng: '+target_month+'/'+year+' ', 'background-color: #5272ab; color: white;');
           console.log('%c__#____Ngày________B/đầu~K/Thúc__T/Gian____', 'background-color: white; color: black;');
           var sum_work_hour = 0, sum_work_min = 0;
           _.map(month_datas, function(data, key) {
