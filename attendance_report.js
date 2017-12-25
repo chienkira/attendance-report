@@ -15,7 +15,7 @@ function exec(CONCERN_JAPAN, _target_month) {
     onerror: function() { console.log('%c Không nhận được response từ server. Hủy!', 'background-color: red; color: black') },
     onsuccess: function (params, result1) {
       $.cwx.api({
-        url: clearworks.constant.API_URI + '/payroll/employee-attendance/find-by-login-user?target_year='+year+'&target_month='+(target_month+1)+'',
+        url: clearworks.constant.API_URI + '/payroll/employee-attendance/find-by-login-user?target_year='+(target_month == 12 ? (year+1) : year)+'&target_month='+(target_month == 12 ? 1 : (target_month+1))+'',
         method: 'GET',
         onerror: function() { console.log('%c Không nhận được response từ server. Hủy!', 'background-color: red; color: black') },
         onsuccess: function (params, result2) {
